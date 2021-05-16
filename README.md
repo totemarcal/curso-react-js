@@ -1,70 +1,284 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Crie um projeto React.js com Github
 
-## Available Scripts
+Acesse ao site [github.com](https://github.com/), caso não tenha uma conta faça uma.
 
-In the project directory, you can run:
+## Criando um projeto
+Tempo estimado: 20 min.
 
-### `yarn start`
+Primeiro crie um projeto React com o nome de react-hooks-crud-bootstrap e depois teste.
+> npx create-react-app react-hooks-crud-bootstrap
+> 
+> cd react-hooks-crud-bootstrap
+> 
+> yarn start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## "Codando" nosso projeto
+Vamos codar nosso projeto usando class Component.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Criando uma tabela de produtos
+Tempo estimado: 50 min.
 
-### `yarn test`
+1. Crie uma pasta `components` dentro da pasta `src`.
+2. Crie o arquivo `ProductRow.js` dentro da pasta `src/components` e adicione o seguinte código. O componente `ProductRow.js` cria uma linha na tabela que é exibida, caso a lista de produtos `this.props.product` recebida via **props** o nome do produto é exibido na cor `red` em `const name = product.stocked ? product.name : ... `.
+~~~ javascript
+import React from 'react'
+import ProductRow from './ProductRow'
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+class ProductTable extends React.Component {
+    render() {
+      const rows = [];
+      this.props.products.forEach((product) => {
+        rows.push(
+          <ProductRow
+            product={product}
+            key={product.name}
+          />
+        );
+      });
+      return (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </table>
+      );
+    }
+  }
+  export default ProductTable
+  ~~~
+3. Crie o arquivo `ProductTable.js` dentro da pasta `src/components` e adicione o seguinte código. A tabela de produto recebe o **props** `this.props.products`. Em `this.props.products.forEach((product) => {` para item da lista de produtos será criado `<ProductRow />`. O método `return` cria uma tabela com as colunas `Name`e `Price` e o `tbody` adicionas as linhas da tabela com o componente `<ProductRow />`.
+	 
+~~~ javascript
+import React from 'react'
+import ProductRow from './ProductRow'
 
-### `yarn build`
+class ProductTable extends React.Component {
+    render() {
+      const rows = [];
+      this.props.products.forEach((product) => {
+        rows.push(
+          <ProductRow
+            product={product}
+            key={product.name}
+          />  
+        );
+      });
+      return (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </table>
+      );
+    }
+  }
+  export default ProductTable
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+~~~
+4. Crie o arquivo `FilterableProductTable.js` dentro da pasta `src/components` e adicione o seguinte código. O componente `<ProductTable`é invocado para exibir a tabela de produtos.
+~~~ javascript
+import React, {Component} from 'react'
+import ProductTable from './ProductTable'
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+class FilterableProductTable extends React.Component {
+    render() {
+      return (
+        <div> 
+          <ProductTable
+            products={this.props.products}
+          />
+        </div>
+      );
+    }
+  }
+export default FilterableProductTable
+~~~
+5. Altere o arquivo `App.js` para o código abaixo.  O componente `<FilterableProductTable`é invocado para exibir a tabela de produtos e uma lista de procutos `PRODUCTS` é criado.
+~~~ javascript
+import logo from './logo.svg';
+import './App.css';
+import React, {Component} from 'react'
+import FilterableProductTable from './components/FilterableProductTable'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+function App() {
+  return (
+    <FilterableProductTable products={PRODUCTS} />
+  );
+}
+const PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+];
+export default App;
+~~~
+6. Salve todos os arquivos e execute.
+> `yarn start`
 
-### `yarn eject`
+### Adicionando filtros na tabela 
+Tempo estimado: 50 min.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+7. Crie o arquivo `SearchBar.js` dentro da pasta `src/components` e adicione o seguinte código. Para o `input` cada valor digitado é atribuído ao **props** `this.props.filterText` e o `checkbox` é atribuído ao **props** `this.props.inStockOnly`. O método `handleFilterTextChange` invoca outro método via **props** chamado `this.props.onFilterTextChange` o mesmo ocorre com o método `handleInStockChange` via o **props** `this.props.onInStockChange`.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+~~~ javascript
+import React from 'react'
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+class SearchBar extends React.Component {
+    constructor(props) {
+      super(props);
+      this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+      this.handleInStockChange = this.handleInStockChange.bind(this);
+    }
+    handleFilterTextChange(e) {
+      this.props.onFilterTextChange(e.target.value);
+    }
+    handleInStockChange(e) {
+      this.props.onInStockChange(e.target.checked);
+    }
+    render() {
+      return (
+        <form>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={this.props.filterText}
+            onChange={this.handleFilterTextChange}
+          />
+          <p>
+            <input
+              type="checkbox"
+              checked={this.props.inStockOnly}
+              onChange={this.handleInStockChange}
+            />
+            {' '}
+            Only show products in stock
+          </p>
+        </form>
+      );
+    }
+  }
+  export default SearchBar
+~~~
+8. Altere o import do arquivo `FilterableProductTable.js`
+~~~ javascript
+import  SearchBar  from  './SearchBar'
+...
+~~~
+9. Adicione o construtor no arquivo `FilterableProductTable.js` criando os **states**  `filterText` e `inStockOnly` criando também os **binds** `this.handleFilterTextChange` e `this.handleInStockChange` que são responsáveis por alterar o valor dos **states** criados.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+~~~ javascript
+    constructor(props) {
+      super(props);
+      this.state = {
+        filterText: '',
+        inStockOnly: false
+      };
+      
+      this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+      this.handleInStockChange = this.handleInStockChange.bind(this);
+    }
+  
+    handleFilterTextChange(filterText) {
+      this.setState({
+        filterText: filterText
+      });
+    }
+    
+    handleInStockChange(inStockOnly) {
+      this.setState({
+        inStockOnly: inStockOnly
+      })
+    }
+~~~
 
-## Learn More
+10. Altere o método `render` do arquivo `FilterableProductTable.js` para adicionar o componente `SearchBar.js`
+~~~ javascript
+...
+return (
+        <div> 
+        <SearchBar
+            filterText={this.state.filterText}
+            inStockOnly={this.state.inStockOnly}
+            onFilterTextChange={this.handleFilterTextChange}
+            onInStockChange={this.handleInStockChange}
+          />
+          ...
+       )
+~~~
+11. Altere o arquivo `ProductTable` para tratar adicione o import abaixo:
+ ~~~ javascript
+ import ProductCategoryRow from './ProductCategoryRow';
+~~~ 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+12. Em seguida, crie as **const** `filterText` e `inStockOnly` no método `render` que recebem o valor via **props**. No `foreach` é adicionado duas condições que filtra a geração de linhas na tabela de produtos. A terceira condição adicionada cria uma linha na tabela de produtos adicionando o componente `<ProductCategoryRow` .
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+~~~ javascript
+   ...
+   render() {
+	  const filterText = this.props.filterText;
+      const inStockOnly = this.props.inStockOnly;
+      let lastCategory = null;
+      const rows = [];
+      this.props.products.forEach((product) => {
+        if (product.name.indexOf(filterText) === -1) {
+          return;
+        }
+        if (inStockOnly && !product.stocked) {
+          return;
+        }
+        if (product.category !== lastCategory) {
+          rows.push(
+            <ProductCategoryRow
+              category={product.category}
+              key={product.category} />
+          );
+        }
+        rows.push(
+          <ProductRow
+            product={product}
+            key={product.name}
+          />
+        );
+        lastCategory = product.category;
+      });	
+      return (
+      ...
+	      
+~~~
 
-### Code Splitting
+13. Crie o arquivo `ProductCategoryRow.js` dentro da pasta `src/components` e adicione o seguinte código. O componente `ProductCategoryRow` cria uma linha na tabela fazendo a junção de duas colunas.
+~~~ javascript
+import React from 'react'
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+class ProductCategoryRow extends React.Component {
+    render() {
+      const category = this.props.category;
+      return (
+        <tr>
+          <th colSpan="2">
+            {category}
+          </th>
+        </tr>
+      );
+    }
+}
+export default ProductCategoryRow
+~~~
 
-### Analyzing the Bundle Size
+14. Salve todos os arquivos e execute.
+> `yarn start`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Exercício
+Com base nesse exercício crie um projeto em React.js que leia uma lista de objetos e exiba os dado em um tabela.
