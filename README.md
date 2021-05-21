@@ -123,7 +123,7 @@ export default App;
 ## State e Props
 Tempo estimado: 60 min.
 
-**State** são dados privados e completamente controlado pelo componente.  O estado de uma aplicação nada mais é que as informações armazenadas no nosso programa em um determinado tempo. Um **state** é declarado no construtor do componente. O método **this.state()** é responsável por atualizar o valor de um state e automaticamente o componente é renderizado com o novo valor do state.
+**State** são dados privados e completamente controlado pelo componente.  O estado de uma aplicação nada mais é que as informações armazenadas no nosso programa em um determinado tempo. Um **state** é declarado no construtor do componente. O método **this.setState()** é responsável por atualizar o valor de um state e automaticamente o componente é renderizado com o novo valor do state.
 
 **Props** é uma abreviação de properties, ou propriedades, são informações que podem ser passadas para um componente. Pode ser uma string, um número, até mesmo uma função.
 
