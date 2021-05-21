@@ -29,6 +29,8 @@ Não fazemos suposições sobre as outras tecnologias da sua stack, assim você 
 Tempo estimado: 30 min.
 
 Primeiro crie um projeto React com o nome de react-hooks-crud-bootstrap e depois teste.
+> npm install yarn
+> 
 > npx create-react-app react-hooks-crud-bootstrap
 > 
 > cd react-hooks-crud-bootstrap
