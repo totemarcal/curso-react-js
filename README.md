@@ -33,7 +33,7 @@ Primeiro crie um projeto React com o nome de react-hooks-crud-bootstrap e depois
 > 
 > npx create-react-app meu-projeto
 > 
-> cd react-hooks-crud-bootstrap
+> cd meu-projeto
 > 
 > yarn start
 
