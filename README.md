@@ -23,34 +23,26 @@ Tempo estimado: 50 min.
 2. Crie o arquivo `ProductRow.js` dentro da pasta `src/components` e adicione o seguinte código. O componente `ProductRow.js` cria uma linha na tabela que é exibida, caso a lista de produtos `this.props.product` recebida via **props** o nome do produto é exibido na cor `red` em `const name = product.stocked ? product.name : ... `.
 ~~~ javascript
 import React from 'react'
-import ProductRow from './ProductRow'
 
-class ProductTable extends React.Component {
+class ProductRow extends React.Component {
     render() {
-      const rows = [];
-      this.props.products.forEach((product) => {
-        rows.push(
-          <ProductRow
-            product={product}
-            key={product.name}
-          />
-        );
-      });
+      const product = this.props.product;
+      const name = product.stocked ?
+        product.name :
+        <span style={{color: 'red'}}>
+          {product.name}
+        </span>;
+  
       return (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>
+        <tr>
+          <td>{name}</td>
+          <td>{product.price}</td>
+        </tr>
       );
     }
   }
-  export default ProductTable
-  ~~~
+
+  export default ProductRow  ~~~
 3. Crie o arquivo `ProductTable.js` dentro da pasta `src/components` e adicione o seguinte código. A tabela de produto recebe o **props** `this.props.products`. Em `this.props.products.forEach((product) => {` para item da lista de produtos será criado `<ProductRow />`. O método `return` cria uma tabela com as colunas `Name`e `Price` e o `tbody` adicionas as linhas da tabela com o componente `<ProductRow />`.
 	 
 ~~~ javascript
