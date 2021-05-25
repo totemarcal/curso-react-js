@@ -207,6 +207,11 @@ return (
             onFilterTextChange={this.handleFilterTextChange}
             onInStockChange={this.handleInStockChange}
           />
+	  <ProductTable
+            products={this.props.products}
+            filterText={this.state.filterText}
+            inStockOnly={this.state.inStockOnly}
+          />
           ...
        )
 ~~~
