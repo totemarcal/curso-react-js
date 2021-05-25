@@ -42,7 +42,8 @@ class ProductRow extends React.Component {
     }
   }
 
-  export default ProductRow  ~~~
+  export default ProductRow  
+  ~~~
 3. Crie o arquivo `ProductTable.js` dentro da pasta `src/components` e adicione o seguinte código. A tabela de produto recebe o **props** `this.props.products`. Em `this.props.products.forEach((product) => {` para item da lista de produtos será criado `<ProductRow />`. O método `return` cria uma tabela com as colunas `Name`e `Price` e o `tbody` adicionas as linhas da tabela com o componente `<ProductRow />`.
 	 
 ~~~ javascript
