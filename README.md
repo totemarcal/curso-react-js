@@ -7,9 +7,9 @@ Acesse ao site [github.com](https://github.com/), caso não tenha uma conta faç
 Tempo estimado: 20 min.
 
 Primeiro crie um projeto React com o nome de react-hooks-crud-bootstrap e depois teste.
-> npx create-react-app react-hooks-crud-bootstrap
+> npx create-react-app react-table
 > 
-> cd react-hooks-crud-bootstrap
+> cd react-table
 > 
 > yarn start
 
