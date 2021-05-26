@@ -1,4 +1,4 @@
-# Class Component x Fucntion Component
+# Class Component x Fucntional Component
 
 ## Apresentação de práticas
 Tempo estimado: 60 min
