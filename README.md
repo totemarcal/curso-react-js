@@ -6,9 +6,9 @@ Nesta aula iremos criar um cronômetro utilizando React.js acordando os principa
 Tempo estimado: 20 min.
 
 Primeiro crie um projeto React com o nome de react-hooks-crud-bootstrap e depois teste.
-> npx create-react-app react-hooks-crud-bootstrap
+> npx create-react-app react-cronometro
 > 
-> cd react-hooks-crud-bootstrap
+> cd react-cronometro
 > 
 > yarn start
 
